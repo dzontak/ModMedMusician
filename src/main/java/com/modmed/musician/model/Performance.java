@@ -10,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "performance")
 @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "performance_id"))})
+@SequenceGenerator(name = "SEQ_STORE", sequenceName = "performance_id_seq", initialValue = 100)
 public class Performance extends BaseEntity {
 
   @OneToOne(fetch = FetchType.LAZY)

@@ -1,7 +1,7 @@
 package com.modmed.musician.dao;
 
-import com.modmed.musician.types.MusicGenre;
 import com.modmed.musician.model.Band;
+import com.modmed.musician.types.MusicGenre;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

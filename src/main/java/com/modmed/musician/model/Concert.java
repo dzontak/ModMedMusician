@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(name = "concert")
 @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "concert_id"))})
+@SequenceGenerator(name = "SEQ_STORE", sequenceName = "concert_id_seq", initialValue = 100)
 public class Concert extends BaseEntity {
 
   @Column(name = "concert_venue")

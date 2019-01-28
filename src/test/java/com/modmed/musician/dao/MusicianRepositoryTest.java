@@ -1,6 +1,6 @@
 package com.modmed.musician.dao;
 
-import com.modmed.musician.model.Performer;
+import com.github.javafaker.Faker;
 import com.modmed.musician.types.MusicGenre;
 import com.modmed.musician.model.Musician;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.HashSet;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
@@ -115,12 +118,47 @@ public class MusicianRepositoryTest {
   @Test
   public void shouldFindByPerformerInstrument() {
     Set<Musician> musicians = repository.findByPerformersInstrument("viola");
-    for(Musician m: musicians) {
+    for (Musician m : musicians) {
 
-      assertNotNull(m.getPerformers().stream()
-          .filter(p -> p.getInstrument().equals("viola"))
-          .findFirst()
-          .orElse(null));
+      assertNotNull(
+          m.getPerformers().stream()
+              .filter(p -> p.getInstrument().equals("viola"))
+              .findFirst()
+              .orElse(null));
     }
+  }
+
+  @Test
+  public void shouldCreateMusician() {
+    Faker faker = new Faker();
+    Musician musician =
+        Musician.builder()
+            .name(faker.name().name())
+            .bornOn(
+                Instant.ofEpochMilli(faker.date().birthday().getTime())
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate())
+            .build();
+
+    Musician save = repository.save(musician);
+    assertEquals(musician.getName(), save.getName());
+    assertEquals(musician.getBornOn(), save.getBornOn());
+  }
+
+
+  public void shouldCreateManyMusicians() {
+    Faker faker = new Faker();
+    Set<Musician> musicianSet = new HashSet<>(100);
+    for (int i = 0; i < 100; i++) {
+      musicianSet.add(
+          Musician.builder()
+              .name(faker.name().name())
+              .bornOn(
+                  Instant.ofEpochMilli(faker.date().birthday().getTime())
+                      .atZone(ZoneId.systemDefault())
+                      .toLocalDate())
+              .build());
+    }
+    Iterable<Musician> musicians = repository.saveAll(musicianSet);
   }
 }

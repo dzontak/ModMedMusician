@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "band")
 @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "band_id"))})
+@SequenceGenerator(name = "SEQ_STORE", sequenceName = "band_id_seq", initialValue = 100)
 public class Band extends BaseEntity {
 
   @Column(name = "band_name")

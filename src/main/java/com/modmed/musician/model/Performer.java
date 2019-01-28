@@ -13,6 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "performer")
 @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "performer_id"))})
+@SequenceGenerator(name = "SEQ_STORE", sequenceName = "performer_id_seq", initialValue = 100)
 public class Performer extends BaseEntity {
 
   @Column(name = "performer_type")

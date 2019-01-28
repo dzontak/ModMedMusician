@@ -7,36 +7,36 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
-@MappedSuperclass
 @Getter
 @Setter
 @EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@MappedSuperclass
 public abstract class BaseEntity implements Comparable<BaseEntity>, Serializable {
-
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_STORE")
   private Long id;
 
-//  @Column(nullable = false)
-//  @EqualsAndHashCode.Exclude
-//  private LocalDateTime createdAt;
-//
-//  @Column(nullable = false)
-//  @EqualsAndHashCode.Exclude
-//  private LocalDateTime updatedAt;
-//
-//  @PrePersist
-//  public void prePersist() {
-//    createdAt = updatedAt = LocalDateTime.now();
-//  }
-//
-//  @PreUpdate
-//  public void preUpdate() {
-//    updatedAt = LocalDateTime.now();
-//  }
+  @Column(name = "created_at")
+  @EqualsAndHashCode.Exclude
+  private LocalDateTime createdAt = LocalDateTime.now();
+
+  @Column(name = "updated_at")
+  @EqualsAndHashCode.Exclude
+  private LocalDateTime updatedAt = LocalDateTime.now();
+
+  @PrePersist
+  public void prePersist() {
+    createdAt = updatedAt = LocalDateTime.now();
+  }
+
+  @PreUpdate
+  public void preUpdate() {
+    updatedAt = LocalDateTime.now();
+  }
 
   @Override
   public int compareTo(BaseEntity o) {

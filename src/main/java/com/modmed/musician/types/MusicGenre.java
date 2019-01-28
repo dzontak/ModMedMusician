@@ -4,7 +4,7 @@ public enum MusicGenre {
   JAZZ("Jazz"),
   CLASSICAL("Classical"),
   ROCK("Rock"),
-  UNKNOWN("Uknown");
+  UNKNOWN("Unknown");
 
   private final String code;
 

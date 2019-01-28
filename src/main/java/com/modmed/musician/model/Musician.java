@@ -1,16 +1,19 @@
 package com.modmed.musician.model;
 
 import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "musician")
 @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "musician_id"))})
+@SequenceGenerator(name = "SEQ_STORE", sequenceName = "musician_id_seq", initialValue = 100)
 public class Musician extends BaseEntity {
 
   @Column(name = "musician_name")
