@@ -20,7 +20,7 @@ public class Band extends BaseEntity {
   @Column(name = "band_name")
   private String name;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "band_home")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
@@ -33,7 +33,7 @@ public class Band extends BaseEntity {
   @Column(name = "band_start_date")
   private LocalDate startDate;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "band_contact")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
@@ -47,4 +47,9 @@ public class Band extends BaseEntity {
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private Set<Performer> performers;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "band")
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private Set<Performance> performances;
 }

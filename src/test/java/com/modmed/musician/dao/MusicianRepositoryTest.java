@@ -1,6 +1,7 @@
 package com.modmed.musician.dao;
 
 import com.github.javafaker.Faker;
+import com.modmed.musician.model.Place;
 import com.modmed.musician.types.MusicGenre;
 import com.modmed.musician.model.Musician;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +14,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashSet;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
@@ -26,14 +25,14 @@ import java.util.Set;
 @Slf4j
 public class MusicianRepositoryTest {
   @Autowired MusicianRepository repository;
-  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+  @Autowired PlaceRepository placeRepository;
 
   @Test
   public void shouldFindMusicianByName() {
     Musician musician = repository.findByName("Tony Smythe");
     assertNotNull(musician);
     assertEquals("Tony Smythe", musician.getName());
-    assertNotNull(musician.getComposer());
+    assertNotNull(musician.getComposers());
     assertNotNull(musician.getId());
     assertNotNull(musician.getBornIn());
     assertNotNull(musician.getBornOn());
@@ -42,9 +41,13 @@ public class MusicianRepositoryTest {
 
   @Test
   public void shouldFindByComposerGenre() {
-    Set<Musician> byComposerGenre = repository.findByComposerGenre(MusicGenre.CLASSICAL);
+    Set<Musician> byComposerGenre = repository.findByComposersGenre(MusicGenre.CLASSICAL);
     for (Musician m : byComposerGenre) {
-      assertEquals(MusicGenre.CLASSICAL, m.getComposer().getGenre());
+      assertNotNull(
+          m.getComposers().stream()
+              .filter(p -> p.getGenre().equals(MusicGenre.CLASSICAL))
+              .findFirst()
+              .orElse(null));
     }
   }
 
@@ -95,7 +98,7 @@ public class MusicianRepositoryTest {
   }
 
   @Test
-  public void shouldFindMusiciansBornBeforeAGivenDate() throws ParseException {
+  public void shouldFindMusiciansBornBeforeAGivenDate() {
     LocalDate birthdate = LocalDate.of(1975, 1, 1);
     Set<Musician> musicians = repository.findByBornOnBefore(birthdate);
     assertNotNull(musicians);
@@ -140,25 +143,20 @@ public class MusicianRepositoryTest {
                     .toLocalDate())
             .build();
 
+    Place livingIn =
+        Place.builder().town(faker.address().cityName()).country(faker.address().country()).build();
+    placeRepository.save(livingIn);
+    musician.setLivingIn(livingIn);
+    Place bornIn =
+        Place.builder().town(faker.address().cityName()).country(faker.address().country()).build();
+    placeRepository.save(bornIn);
+    musician.setBornIn(bornIn);
+
     Musician save = repository.save(musician);
     assertEquals(musician.getName(), save.getName());
     assertEquals(musician.getBornOn(), save.getBornOn());
-  }
-
-
-  public void shouldCreateManyMusicians() {
-    Faker faker = new Faker();
-    Set<Musician> musicianSet = new HashSet<>(100);
-    for (int i = 0; i < 100; i++) {
-      musicianSet.add(
-          Musician.builder()
-              .name(faker.name().name())
-              .bornOn(
-                  Instant.ofEpochMilli(faker.date().birthday().getTime())
-                      .atZone(ZoneId.systemDefault())
-                      .toLocalDate())
-              .build());
-    }
-    Iterable<Musician> musicians = repository.saveAll(musicianSet);
+    assertEquals(musician.getBornOn(), save.getBornOn());
+    assertEquals(musician.getBornIn().getTown(), save.getBornIn().getTown());
+    assertEquals(musician.getLivingIn().getTown(), save.getLivingIn().getTown());
   }
 }

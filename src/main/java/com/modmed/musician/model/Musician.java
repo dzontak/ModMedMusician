@@ -29,25 +29,35 @@ public class Musician extends BaseEntity {
   @EqualsAndHashCode.Exclude
   private LocalDate diedOn;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "born_in")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private Place bornIn;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "living_in")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private Place livingIn;
 
-  @OneToOne(mappedBy = "musician", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "musician", fetch = FetchType.LAZY)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
-  private Composer composer;
+  private Set<Composer> composers;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "musician")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private Set<Performer> performers;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "organizer")
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private Set<Concert> organized;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "contact")
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private Set<Band> bands;
 }

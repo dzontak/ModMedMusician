@@ -2,14 +2,14 @@ package com.modmed.musician.dao;
 
 import com.modmed.musician.model.Band;
 import com.modmed.musician.types.MusicGenre;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Set;
 
 /** The interface Band repository. */
 @RepositoryRestResource(collectionResourceRel = "band", path = "band")
-public interface BandRepository extends CrudRepository<Band, Long> {
+public interface BandRepository extends PagingAndSortingRepository<Band, Long> {
   /**
    * Find by name band.
    *

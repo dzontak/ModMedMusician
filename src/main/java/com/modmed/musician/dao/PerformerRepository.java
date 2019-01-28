@@ -2,14 +2,14 @@ package com.modmed.musician.dao;
 
 import com.modmed.musician.model.Performer;
 import com.modmed.musician.types.MusicGenre;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Set;
 
 /** The interface Performer repository. */
 @RepositoryRestResource(collectionResourceRel = "performer", path = "performer")
-public interface PerformerRepository extends CrudRepository<Performer, Long> {
+public interface PerformerRepository extends PagingAndSortingRepository<Performer, Long> {
   /**
    * Find performers by <code>{@link MusicGenre}</code>
    *

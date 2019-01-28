@@ -13,7 +13,7 @@ import javax.persistence.*;
 @SequenceGenerator(name = "SEQ_STORE", sequenceName = "performance_id_seq", initialValue = 100)
 public class Performance extends BaseEntity {
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "gave")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude

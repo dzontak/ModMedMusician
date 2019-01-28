@@ -2,14 +2,14 @@ package com.modmed.musician.dao;
 
 import com.modmed.musician.model.Composition;
 import com.modmed.musician.types.MusicGenre;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.time.LocalDate;
 import java.util.Set;
 /** The interface Composition repository. */
 @RepositoryRestResource(collectionResourceRel = "composition", path = "composition")
-public interface CompositionRepository extends CrudRepository<Composition, Long> {
+public interface CompositionRepository extends PagingAndSortingRepository<Composition, Long> {
 
   /**
    * Find by title composition.

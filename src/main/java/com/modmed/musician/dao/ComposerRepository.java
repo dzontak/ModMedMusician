@@ -2,13 +2,13 @@ package com.modmed.musician.dao;
 
 import com.modmed.musician.model.Composer;
 import com.modmed.musician.types.MusicGenre;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Set;
 /** The interface Composer repository. */
 @RepositoryRestResource(collectionResourceRel = "composer", path = "composer")
-public interface ComposerRepository extends CrudRepository<Composer, Long> {
+public interface ComposerRepository extends PagingAndSortingRepository<Composer, Long> {
 
   /**
    * Finds all Composers by music genre

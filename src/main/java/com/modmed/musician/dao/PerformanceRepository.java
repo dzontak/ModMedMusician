@@ -1,14 +1,14 @@
 package com.modmed.musician.dao;
 
 import com.modmed.musician.model.Performance;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Set;
 
 /** The interface Performance repository. */
 @RepositoryRestResource(collectionResourceRel = "performance", path = "performance")
-public interface PerformanceRepository extends CrudRepository<Performance, Long> {
+public interface PerformanceRepository extends PagingAndSortingRepository<Performance, Long> {
   /**
    * Find performance by band's name
    *

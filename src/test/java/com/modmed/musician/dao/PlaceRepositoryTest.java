@@ -1,5 +1,6 @@
 package com.modmed.musician.dao;
 
+import com.github.javafaker.Faker;
 import com.modmed.musician.model.Place;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class PlaceRepositoryTest {
 
   @Autowired PlaceRepository placeRepository;
+  Faker faker = new Faker();
 
   @Test
   public void shouldFindPlaceByTownName() {
@@ -34,5 +36,12 @@ public class PlaceRepositoryTest {
 
     Set<Place> places = placeRepository.findPlacesByCountry("London");
     Assert.assertNotNull(places);
+  }
+
+  public void shouldSavePlace() {
+    Place place =
+        Place.builder().town(faker.address().cityName()).country(faker.address().country()).build();
+    Place save = placeRepository.save(place);
+    Assert.assertEquals(place, save);
   }
 }

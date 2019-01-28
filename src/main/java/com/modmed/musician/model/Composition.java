@@ -21,7 +21,7 @@ public class Composition extends BaseEntity {
   @Column(name = "composition_date")
   private LocalDate composedOn;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "composed_in")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude

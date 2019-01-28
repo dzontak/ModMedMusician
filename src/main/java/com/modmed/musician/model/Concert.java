@@ -18,11 +18,17 @@ public class Concert extends BaseEntity {
   private String venue;
 
   @Column(name = "concert_date")
-  private LocalDate concertDate;
+  private LocalDate date;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "concert_in")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private Place heldIn;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "concert_organiser")
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private Musician organizer;
 }

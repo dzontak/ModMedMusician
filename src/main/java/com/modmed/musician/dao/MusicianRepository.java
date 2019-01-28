@@ -2,7 +2,7 @@ package com.modmed.musician.dao;
 
 import com.modmed.musician.model.Musician;
 import com.modmed.musician.types.MusicGenre;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 /** The interface Musician repository. */
 @RepositoryRestResource(collectionResourceRel = "musician", path = "musician")
-public interface MusicianRepository extends CrudRepository<Musician, Long> {
+public interface MusicianRepository extends PagingAndSortingRepository<Musician, Long> {
 
   /**
    * Find by name musician.
@@ -42,7 +42,7 @@ public interface MusicianRepository extends CrudRepository<Musician, Long> {
    * @param genre the genre
    * @return the set
    */
-  Set<Musician> findByComposerGenre(MusicGenre genre);
+  Set<Musician> findByComposersGenre(MusicGenre genre);
 
   /**
    * Find by born on after set.
